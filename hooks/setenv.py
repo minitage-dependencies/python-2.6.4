@@ -1,4 +1,8 @@
 import os, sys
+try:
+    from os import uname
+except:
+    from platform import uname
 import re
 #ef getpythonenv(options,buildout):
 #   """Where python looks to get its cflags."""
@@ -78,7 +82,8 @@ import re
 
 def patchincludes(options,buildout):
     """Where python looks to get its cflags."""
-    u, v = os.uname()[0],os.uname()[3]
+    u, v = uname()[0],uname()[3]
+    #import pdb;pdb.set_trace()
     if u == 'Darwin' and v == '9.8.0':
         cmyfile = [l for l in open(
                         os.path.join(
