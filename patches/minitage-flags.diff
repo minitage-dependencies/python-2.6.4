@@ -1,7 +1,6 @@
-Index: setup.py
-===================================================================
---- setup.py	(révision 75204)
-+++ setup.py	(copie de travail)
+diff -uNr Python-2.6.5/setup.py Python-2.6.5.new/setup.py
+--- setup.py	2010-03-08 08:08:25.000000000 +0100
++++ setup.py	2010-04-04 20:52:35.000000000 +0200
 @@ -361,7 +361,10 @@
          # lib_dirs and inc_dirs are used to search for files;
          # if a file is found in one of those directories, it can
@@ -14,20 +13,19 @@ Index: setup.py
              '/lib64', '/usr/lib64',
              '/lib', '/usr/lib',
              ]
-@@ -561,9 +564,9 @@
-             # the readline module unless the user has installed a fixed
-             # readline package
-             # FIXME: The readline emulation on 10.5 is better, but the
--            # readline module doesn't compile out of the box.
--            if find_file('readline/rlconf.h', inc_dirs, []) is None:
--                do_readline = False
-+            print 'readline module doesn\'t compile out of the box except inside minitage :).'
-+#            if find_file('readline/rlconf.h', inc_dirs, []) is None:
-+#                do_readline = False
+@@ -565,8 +568,9 @@
+                 # MacOSX 10.4 has a broken readline. Don't try to build
+                 # the readline module unless the user has installed a fixed
+                 # readline package
+-                if find_file('readline/rlconf.h', inc_dirs, []) is None:
+-                    do_readline = False
++                #if find_file('readline/rlconf.h', inc_dirs, []) is None:
++                #    do_readline = False
++                print 'readline module doesn\'t compile out of the box except inside minitage :).'
          if do_readline:
-             if sys.platform == 'darwin':
+             if platform == 'darwin' and os_release < 9:
                  # In every directory on the search path search for a dynamic
-@@ -595,7 +598,7 @@
+@@ -598,7 +602,7 @@
          else:
              missing.append('readline')
  
@@ -36,7 +34,7 @@ Index: setup.py
              # crypt module.
  
              if self.compiler.find_library_file(lib_dirs, 'crypt'):
-@@ -633,8 +636,9 @@
+@@ -636,8 +640,9 @@
          if (ssl_incs is not None and
              ssl_libs is not None):
              exts.append( Extension('_ssl', ['_ssl.c'],
@@ -48,7 +46,7 @@ Index: setup.py
                                     libraries = ['ssl', 'crypto'],
                                     depends = ['socketmodule.h']), )
          else:
-@@ -872,9 +876,10 @@
+@@ -875,9 +880,10 @@
              # is on an NFS server that goes away).
              exts.append(Extension('_bsddb', ['_bsddb.c'],
                                    depends = ['bsddb.h'],
@@ -62,7 +60,7 @@ Index: setup.py
                                    libraries=dblibs))
          else:
              if db_setup_debug: print "db: no appropriate library found"
-@@ -1108,8 +1113,8 @@
+@@ -1112,8 +1118,8 @@
              missing.append('_curses')
  
          # If the curses module is enabled, check for the panel module
@@ -73,7 +71,7 @@ Index: setup.py
              exts.append( Extension('_curses_panel', ['_curses_panel.c'],
                                     libraries = [panel_library] + curses_libs) )
          else:
-@@ -1203,7 +1208,10 @@
+@@ -1207,7 +1213,10 @@
  
          exts.append(Extension('pyexpat',
                                define_macros = define_macros,
@@ -85,7 +83,7 @@ Index: setup.py
                                sources = ['pyexpat.c',
                                           'expat/xmlparse.c',
                                           'expat/xmlrole.c',
-@@ -1218,7 +1226,10 @@
+@@ -1222,7 +1231,10 @@
              define_macros.append(('USE_PYEXPAT_CAPI', None))
              exts.append(Extension('_elementtree',
                                    define_macros = define_macros,
